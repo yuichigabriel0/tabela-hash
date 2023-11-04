@@ -1,0 +1,13 @@
+import java.util.Random;
+
+public class gerador {
+        public int gerarNumeroCom9Digitos() {
+            Random geradorAleatorio = new Random();
+            int numeroMinimo = 100_000_000; // Mínimo valor com 9 dígitos
+            int numeroMaximo = 999_999_999; // Máximo valor com 9 dígitos
+
+            int numeroAleatorio = geradorAleatorio.nextInt(numeroMaximo - numeroMinimo + 1) + numeroMinimo;
+            return numeroAleatorio;
+        }
+
+}
