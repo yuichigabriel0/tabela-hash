@@ -1,0 +1,35 @@
+import java.util.Random;
+
+class Main{
+    public static void main(String[] args) {
+        TabelaHash tabela = new TabelaHash();
+        gerador g = new gerador();
+        long start = System.nanoTime();
+        for(int i = 0;i<1000000;i++) {
+            tabela.inserir(g.gerarNumeroCom9Digitos());
+        }
+        long end = System.nanoTime();
+        long duration = end - start;
+
+        System.out.println("=======( P R I N T )=======");
+        //tabela.imprimirTabela();
+        System.out.println("=======( duração )=======");
+        double segundos = duration / 1_000_000_000.0;
+        String tempoFormatado = String.format("%.6f segundos", segundos);
+        System.out.println(tempoFormatado);
+        System.out.println("=======( busca )=======");
+        long start2 = System.nanoTime();
+
+        tabela.buscar(g.gerarNumeroCom9Digitos());
+        tabela.buscar(g.gerarNumeroCom9Digitos());
+        tabela.buscar(g.gerarNumeroCom9Digitos());
+        tabela.buscar(g.gerarNumeroCom9Digitos());
+        tabela.buscar(g.gerarNumeroCom9Digitos());
+        long end2 = System.nanoTime();
+        long duration2 = end2 - start2;
+        double segundos2 = duration2 / 1_000_000_000.0;
+        String tempoFormatado2 = String.format("%.6f segundos de busca", segundos2);
+        System.out.println(tempoFormatado2);
+        tabela.printU();
+        //tabela.imprimirTabela();
+}}
