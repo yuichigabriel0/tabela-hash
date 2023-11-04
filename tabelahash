@@ -1,0 +1,101 @@
+public class TabelaHash {
+    private static final int TAMANHO = 1000;
+    private Node[] tabela;
+    private double constante = 0.61803398875;
+
+    public int contColi = 0;
+    public int contCompara = 0;
+
+    public TabelaHash() {
+        tabela = new Node[TAMANHO];
+    }
+
+    public void inserir(int chave) {
+        int indice = calcularIndiceDob(chave);
+        Node novoNo = new Node(chave);
+
+        if (tabela[indice] == null) {
+            tabela[indice] = novoNo;
+        } else if (tabela[indice].proximo == null) {
+            // Há apenas um elemento no índice, o novo nó será o próximo do primeiro
+            tabela[indice].proximo = novoNo;
+            contColi +=1;
+        } else {
+            Node primeiro = tabela[indice].proximo;
+            Node atual = primeiro;
+            contColi +=1;
+
+            // Verifica se o novo nó deve ser o próximo do primeiro elemento
+            if (novoNo.chave < atual.chave) {
+                novoNo.proximo = atual;
+                tabela[indice].proximo = novoNo;
+            } else {
+                // Encontra a posição correta para inserir o novo elemento na lista encadeada
+                while (atual.proximo != null && novoNo.chave > atual.proximo.chave) {
+                    atual = atual.proximo;
+                }
+                novoNo.proximo = atual.proximo;
+                atual.proximo = novoNo;
+            }
+        }
+    }
+
+    public int buscar(int chave) {
+        int indice = calcularIndiceDob(chave);
+        Node atual = tabela[indice];
+        while (atual != null) {
+            if (atual.chave == chave) {
+                return atual.chave;
+            }
+            atual = atual.proximo;
+            contCompara+=1;
+        }
+        return -1;
+    }
+
+
+    private int calcularIndiceDiv(int chave) {
+        return chave % TAMANHO;
+    }
+
+    private int calcularIndiceDob(int chave) {
+        int somaDigitos = 0;
+        int valor = chave;
+        while (valor > 0) {
+            somaDigitos += valor % 10;
+            valor /= 10;
+        }
+        return somaDigitos % TAMANHO;
+    }
+
+    private int calcularIndiceMult(int chave) {
+        double valorHash = TAMANHO * ((chave * constante) % 1);
+        return (int) valorHash;
+    }
+
+
+    public void imprimirTabela() {
+        for (int i = 0; i < TAMANHO; i++) {
+            Node atual = tabela[i];
+            System.out.print("Índice " + i + ": ");
+
+            while (atual != null) {
+                System.out.print(atual.chave);
+                if (atual.proximo != null) {
+                    System.out.print(" -> ");
+                }
+                atual = atual.proximo;
+            }
+            System.out.println();
+            System.out.println(contColi);
+            System.out.println(contCompara);
+        }
+    }
+    public void printU(){
+        System.out.println();
+        System.out.println(contColi);
+        System.out.println(contCompara);
+    }
+
+
+}
